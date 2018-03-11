@@ -1,4 +1,4 @@
-#Huom!! 
+#Huom
 ##alla linkki routedAnecdotesiin
 
 
