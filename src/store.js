@@ -10,6 +10,7 @@ const reducer = combineReducers({
   notify: notifyReducer,
   filter: filterReducer
 })
+
 const store = createStore(
   reducer,
   applyMiddleware(thunk)
