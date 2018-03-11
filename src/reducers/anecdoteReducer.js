@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+import doteService from '../services/anecdotes'
 
 const anecdoteReducer = (store = [], action) => {
 
@@ -7,7 +9,7 @@ const anecdoteReducer = (store = [], action) => {
     return [ ...old, { ...voted, votes: voted.votes + 1 } ]
   }
   if (action.type === 'CREATE') {
-    return [ ...store, action.content ]
+    return [ ...store, action.newDote ]
   }
   if (action.type === 'INIT_NOTES'){
     return action.data
@@ -16,9 +18,12 @@ const anecdoteReducer = (store = [], action) => {
 }
 
 export const anecdoteCreation = (content) => {
-  return {
-    type: 'CREATE',
-    content
+  return async (dispatch) => {
+    const newDote = await doteService.createNew(content)
+    dispatch({
+      type: 'CREATE',
+      newDote
+    })
   }
 }
 
@@ -29,10 +34,13 @@ export const anecdoteVote = (content) => {
   }
 }
 
-export const doteInitialization = (data) => {
-  return {
-    type: 'INIT_NOTES',
-    data
+export const doteInitialization = () => {
+  return async (dispatch) => {
+    const notes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_NOTES',
+      data: notes
+    })
   }
 }
 

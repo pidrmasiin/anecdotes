@@ -1,5 +1,5 @@
 import React from 'react'
-import { notify } from '../reducers/notifyReducer'
+import { notifyCreation } from '../reducers/notifyReducer'
 import Filter from './Filter'
 import { connect } from 'react-redux'
 import doteService from '../services/anecdotes'
@@ -11,12 +11,7 @@ class AnecdoteList extends React.Component {
     one[0].votes = one[0].votes + 1
     await doteService.vote(one[0])
     const text = 'Voted '  + anecdote.content
-    this.props.dispatch(
-      notify(text)
-    )
-    setTimeout(() => {
-      this.props.dispatch(notify(''))
-    }, 4000)
+    this.props.notifyCreation(text, 4)
   }
 
   render() {
@@ -43,7 +38,6 @@ class AnecdoteList extends React.Component {
 }
 
 const anecdotesToShow = (anecdotes, filter) => {
-  console.log('dotes', anecdotes)
   const bySearchTerm = (anecdote) => {
     if (filter === 0) {
       return true
@@ -62,7 +56,8 @@ const mapStateToProps = (state) => {
 }
 
 const ConnectedAnecdoteList = connect(
-  mapStateToProps
+  mapStateToProps,
+  { notifyCreation }
 )(AnecdoteList)
 
 export default ConnectedAnecdoteList

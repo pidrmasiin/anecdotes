@@ -17,7 +17,6 @@ const createNew = async (content) => {
 }
 
 const vote = async (newObject) => {
-  console.log('new', newObject)
   const response = await axios.put(`${url}/${newObject.id}`, newObject)
   return response.data
 }

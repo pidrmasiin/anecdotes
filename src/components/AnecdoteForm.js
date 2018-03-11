@@ -1,8 +1,7 @@
 import React from 'react'
 import { anecdoteCreation } from '../reducers/anecdoteReducer'
-import { notify } from '../reducers/notifyReducer'
+import { notifyCreation } from '../reducers/notifyReducer'
 import { connect } from 'react-redux'
-import doteService from '../services/anecdotes'
 
 class AnecdoteForm extends React.Component {
 
@@ -10,18 +9,9 @@ class AnecdoteForm extends React.Component {
     e.preventDefault()
     const content= e.target.anecdote.value
     e.target.anecdote.value = ''
-    const newDote = await doteService.createNew(content)
-    console.log('new', newDote)
-    this.props.dispatch(
-      anecdoteCreation(newDote)
-    )
+    this.props.anecdoteCreation(content)
     const text = 'Lisätty anekdootti '  + content
-    this.props.dispatch(
-      notify(text)
-    )
-    setTimeout(() => {
-      this.props.dispatch(notify(''))
-    }, 4000)
+    this.props.notifyCreation(text, 5)
   }
 
   render() {
@@ -38,14 +28,14 @@ class AnecdoteForm extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    anecdotes: state.filter,
     notify: state.notify,
     filter: state.filter
   }
 }
 
 const ConnectedAnecdoteForm = connect(
-  mapStateToProps
+  mapStateToProps,
+  { anecdoteCreation,  notifyCreation }
 )(AnecdoteForm)
 
 export default ConnectedAnecdoteForm

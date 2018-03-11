@@ -7,10 +7,16 @@ const notifyReducer = (store = '', action) => {
   return store
 }
 
-export const notify = (content) => {
-  return {
-    type: 'SHOW',
-    notify: content
+export const notifyCreation = (content, time) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SHOW',
+      notify: content
+    })
+    setTimeout(() => dispatch({
+      type: 'SHOW',
+      notify: ''
+    }), time * 1000)
   }
 }
 
